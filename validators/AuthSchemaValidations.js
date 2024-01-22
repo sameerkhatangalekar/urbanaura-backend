@@ -1,6 +1,6 @@
 import joi from "joi";
 
-const loginSchemaValidator = joi.object({
+const loginInformationValidator = joi.object({
     email: joi.string().email().lowercase().required().messages({
         'any.required': "Email is required",
     }),
@@ -13,7 +13,7 @@ const loginSchemaValidator = joi.object({
 
 
 
-const registerSchemaValidator = joi.object({
+const registerUserValidator = joi.object({
     firstName: joi.string().required().messages({
         'any.required': "First name is required",
     }),
@@ -36,6 +36,6 @@ const registerSchemaValidator = joi.object({
 });
 
 export {
-    loginSchemaValidator,
-    registerSchemaValidator
+    loginInformationValidator,
+    registerUserValidator
 } 

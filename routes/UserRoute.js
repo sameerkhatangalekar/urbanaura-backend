@@ -1,11 +1,11 @@
 import express from "express";
-import { isAdmin } from "../helpers/jwtHelper.js";
+import { verifyAccessToken, isAdmin } from "../helpers/jwtHelper.js";
 import UserController from "../controllers/UserController.js";
 const router = express.Router();
 
-router.get('/', UserController.getLoggedInUser)
-router.put('/', UserController.updateUser);
-router.delete('/', UserController.deleteOwnAccount);
-router.get('/admin/', isAdmin, UserController.getAllUsers);
-router.delete('/admin/:id', isAdmin, UserController.deleteAccount);
+router.get('/secured', verifyAccessToken, UserController.getLoggedInUser)
+router.put('/secured', verifyAccessToken, UserController.updateUser);
+router.delete('/secured', verifyAccessToken, UserController.deleteOwnAccount);
+router.get('/secured/admin/', [verifyAccessToken, isAdmin], UserController.getAllUsers);
+router.delete('/secured/admin/:id', [verifyAccessToken, isAdmin], UserController.deleteAccount);
 export default router;

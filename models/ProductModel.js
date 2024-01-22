@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 const ProductSchema = new Schema({
     title: {
         type: String,
-        required: [true, "Title is required"],
+        required: true,
         unique: true
     },
     description: {
         type: String,
-        required: [true, "Description is required"],
+        required: true,
     },
     images: {
         type: [String],
@@ -19,14 +19,23 @@ const ProductSchema = new Schema({
         type: [String],
         required: true
     },
-    size: {
+    sizes: {
+        type: [String],
+        required: true
+    },
+    colors: {
         type: [String],
         required: true
     },
     price: {
-        tpye: Number,
+        type: Number,
         required: true
+    },
+    isActive: {
+        type: Boolean,
+        default: true
     }
+
 }, { timestamps: true });
 
 

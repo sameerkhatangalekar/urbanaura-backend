@@ -2,7 +2,7 @@ import joi from "joi";
 
 
 
-const updateUserSchemaValidator = joi.object({
+const updateUserValidator = joi.object({
     firstName: joi.string().messages({
         'any.required': "First name is required",
     }),
@@ -20,5 +20,5 @@ const updateUserSchemaValidator = joi.object({
 });
 
 export {
-    updateUserSchemaValidator,
+    updateUserValidator,
 } 

@@ -1,6 +1,6 @@
 import User from "../models/UserModel.js";
 import createHttpError from "http-errors";
-import { updateUserSchemaValidator } from "../validators/UserSchemaValidation.js"
+import { updateUserValidator } from "../validators/UserSchemaValidations.js"
 
 export default {
     getLoggedInUser: async (req, res, next) => {
@@ -32,7 +32,7 @@ export default {
     },
     updateUser: async (req, res, next) => {
         try {
-            const validated = await updateUserSchemaValidator.validateAsync(req.body)
+            const validated = await updateUserValidator.validateAsync(req.body)
             const savedUser = await User.findByIdAndUpdate(
                 { _id: req.user._id },
                 {

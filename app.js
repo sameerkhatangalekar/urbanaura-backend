@@ -3,9 +3,12 @@ import morgan from 'morgan';
 import { connectToDatabase } from './Helpers/initMongodb.js';
 import AuthRoute from './routes/AuthRoute.js';
 import UserRoute from './routes/UserRoute.js';
+import CategoryRoute from './routes/CategoryRoute.js';
+import ProductRoute from './routes/ProductRoute.js';
 import createHttpError from 'http-errors';
 import 'dotenv/config';
-import { verifyAccessToken } from './helpers/jwtHelper.js';
+import { limiter } from './helpers/rateLimit.js';
+
 connectToDatabase();
 const app = express();
 app.use(express.json())
@@ -14,6 +17,7 @@ app.use(morgan("dev", {
         return res.statusCode < 400;
     }
 }))
+app.use(limiter)
 
 
 app.get('/health', async (req, res, next) => {
@@ -21,8 +25,9 @@ app.get('/health', async (req, res, next) => {
 });
 
 app.use('/api/v1/auth', AuthRoute)
-app.use('/api/v1/user', verifyAccessToken, UserRoute)
-
+app.use('/api/v1/user', UserRoute)
+app.use('/api/v1/category', CategoryRoute)
+app.use('/api/v1/product', ProductRoute)
 app.use(async (req, res, next) => {
     next(createHttpError.NotFound("This route does not exists"));
 });
