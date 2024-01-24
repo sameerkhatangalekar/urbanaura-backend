@@ -22,6 +22,8 @@ export const connectToDatabase = async () => {
 
         process.on("SIGINT", async () => {
             await mongoose.connection.close();
+            console.log("Closing database connection");
+            console.log("Good night")
             process.exit(0);
         });
     } catch (error) {
