@@ -10,6 +10,7 @@ import ProductRoute from './routes/ProductRoute.js';
 import CartRoute from './routes/CartRoute.js';
 import CheckoutRoute from './routes/CheckoutRoute.js';
 import createHttpError from 'http-errors';
+import cookieParser from 'cookie-parser';
 
 import { limiter } from './helpers/rateLimit.js';
 import Stripe from 'stripe';
@@ -68,6 +69,8 @@ app.post(
 );
 
 app.use(express.json())
+
+app.use(cookieParser())
 app.use(limiter)
 app.get('/health', async (req, res, next) => {
     res.send("🚀🚀 I'm flyingg!!! 🚀🚀");
@@ -96,11 +99,10 @@ app.use((err, req, res, next) => {
     else {
         console.error(err.stack);
         res.status(err.status).send({
-            error: {
-                status: err.status,
-                message: err.message,
-                timestamp: new Date().toISOString()
-            },
+            status: err.status,
+            message: err.message,
+            timestamp: new Date().toISOString()
+            ,
         });
         // res.status(500);
         // res.send({

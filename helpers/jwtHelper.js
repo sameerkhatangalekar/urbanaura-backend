@@ -22,10 +22,15 @@ const signAccessToken = (userId) => {
 }
 
 const verifyAccessToken = async (req, res, next) => {
-    if (!req.headers["authorization"]) return next(createHttpError.Unauthorized());
-    const authHeader = req.headers["authorization"];
-    const bearerToken = authHeader.split(" ");
-    const token = bearerToken[1];
+    if (!req.cookies.accessToken) return next(createHttpError.Unauthorized());
+    // const authHeader = req.headers["authorization"];
+    // const bearerToken = authHeader.split(" ");
+    const token = req.cookies.accessToken;
+
+    // if (!req.headers["authorization"]) return next(createHttpError.Unauthorized());
+    // const authHeader = req.headers["authorization"];
+    // const bearerToken = authHeader.split(" ");
+    // const token = bearerToken[1];
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, payload) => {
         if (err) {

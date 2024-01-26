@@ -30,6 +30,9 @@ export default {
 
             const accessToken = await signAccessToken(user.id);
 
+            res.cookie('accessToken', accessToken, {
+                httpOnly: true
+            })
             res.send({
                 accessToken
             })
