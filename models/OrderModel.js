@@ -9,22 +9,31 @@ const OrderSchema = new Schema({
         },
         email: { type: String, required: true }
     },
-    products: [{
-        productId: { type: Schema.Types.ObjectId, ref: "product", required: true },
-        quantity: {
-            type: Number,
-            default: 1
-        },
-        size: {
-            type: String,
-            required: true
-        },
-        color: {
-            type: String,
-            required: true
-        }
-    }],
-    amount: {
+    orderId: {
+        type: String,
+        required: true
+    },
+    products: [
+        {
+            product: { type: Schema.Types.ObjectId, ref: "product", required: true },
+            quantity: {
+                type: Number,
+                default: 1
+            },
+            size: {
+                type: String,
+                required: true
+            },
+            color: {
+                type: String,
+                required: true
+            },
+            itemAmount: {
+                type: Number,
+                required: true
+            }
+        }],
+    totalAmount: {
         type: Number,
         required: true
     },

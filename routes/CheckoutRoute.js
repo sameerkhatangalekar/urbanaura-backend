@@ -5,6 +5,6 @@ import { verifyAccessToken } from "../helpers/jwtHelper.js";
 const router = express.Router();
 
 
-router.get('/config', verifyAccessToken, CheckoutController.config)
-router.post('/', verifyAccessToken, CheckoutController.createCheckout)
+// router.get('/config', verifyAccessToken, CheckoutController.config)
+router.get('/', verifyAccessToken, CheckoutController.createCheckout)
 export default router;

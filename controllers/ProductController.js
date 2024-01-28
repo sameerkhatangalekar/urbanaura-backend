@@ -70,7 +70,6 @@ export default {
 
     getAllProducts: async (req, res, next) => {
         try {
-
             const query = {
                 isActive: true
 
@@ -89,11 +88,11 @@ export default {
             if (req.query.size !== '' && req.query.size !== undefined && req.query.size !== null) {
                 query.sizes = req.query.size;
             }
-            console.log(query)
 
-            let products;
 
-            products = await Product.find(query, { isActive: 0 }).sort({ createdAt: -1 })
+
+
+            const products = await Product.find(query, { isActive: 0 }).sort({ createdAt: -1 })
             res.send(products)
 
         } catch (error) {

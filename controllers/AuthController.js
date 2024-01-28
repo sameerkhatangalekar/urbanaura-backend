@@ -31,10 +31,25 @@ export default {
             const accessToken = await signAccessToken(user.id);
 
             res.cookie('accessToken', accessToken, {
-                httpOnly: true
+                httpOnly: true,
+                maxAge: 8 * 60 * 60 * 1000
             })
             res.send({
                 accessToken
+            })
+
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    logout: async (req, res, next) => {
+        try {
+
+            res.clearCookie('accessToken')
+            res.status(202).send({
+                status: 202,
+                message: 'Logged out successfully'
             })
 
         } catch (error) {

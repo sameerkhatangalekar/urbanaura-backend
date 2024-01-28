@@ -1,4 +1,5 @@
 import Stripe from 'stripe';
+import Cart from '../models/CartModel.js';
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 
@@ -9,37 +10,98 @@ export default {
         });
     },
     createCheckout: async (req, res, next) => {
-        const session = await stripe.checkout.sessions.create({
-            success_url: 'http://localhost:5173/success',
-            line_items: [
-                {
-                    price_data: {
-                        currency: 'USD',
-                        product_data: {
-                            name: 'Bigbanman Tshirt',
-                            description: 'Some description',
-                            images: ["https://firebasestorage.googleapis.com/v0/b/portfolio-7177e.appspot.com/o/clothing%2Fkurti.jpg?alt=media&token=9fab535e-aa25-4616-8e64-92038f1f694c"]
+        const cart = await Cart.aggregate([
+            {
+                $match: {
+                    _id: req.user._id,
+                },
+            },
+            {
+                $unwind: "$products",
+            },
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "products.product",
+                    foreignField: "_id",
+                    as: "products.product",
+                },
+            },
+            {
+                $unwind: "$products.product",
+            },
+
+            {
+                $addFields: {
+                    "products.itemAmount": {
+                        $sum: {
+                            $multiply: [
+                                "$products.quantity",
+                                "$products.product.price"
+                            ],
                         },
-                        unit_amount: 1000
-
                     },
-                    quantity: 2,
+                },
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    products: {
+                        $push: "$products",
+                    },
+                    cartTotalAmount: {
+                        $sum: "$products.itemAmount",
+                    },
+                },
+            },
+            {
+                $project: {
+                    "products.product.description": 0,
+                    "products.product.isActive": 0,
+                    "products.product.createdAt": 0,
+                    "products.product.updatedAt": 0,
+                    "products.product.categories": 0,
+                    "products.product.__v": 0,
+                    "products.product.sizes": 0,
+                    "products.product.colors": 0,
+                },
+            }
 
-                }
-            ],
-            currency: 'USD',
+        ]);
+
+        let lineItems = [];
+        cart[0].products.map((item) => {
+            const lineItem = {
+                price_data: {
+                    currency: 'INR',
+                    product_data: {
+                        name: item.product.title,
+                        images: item.product.images
+                    },
+                    unit_amount: (item.product.price * 100)
+
+                },
+                quantity: item.quantity,
+            }
+            lineItems.push(lineItem)
+        })
+
+        const session = await stripe.checkout.sessions.create({
+            success_url: `${process.env.CLIENT_URL}success`,
+            cancel_url: `${process.env.CLIENT_URL}cart`,
+            line_items: lineItems,
+            currency: 'INR',
             metadata: {
-                'userId': 'Sameer'
+                'userId': req.user._id.toString()
             },
             mode: 'payment',
-            customer_email: 'noobiestgod@gmail.com',
-            client_reference_id: "sameer",
+            customer_email: req.user.email,
+            client_reference_id: req.user._id.toString(),
             billing_address_collection: 'required'
-
         })
 
         res.send({
-            id: session.id,
+            url: session.url,
         });
     },
 }
