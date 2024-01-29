@@ -28,6 +28,13 @@ const UserSchema = new Schema({
         type: [String],
         default: ["customer"],
     },
+    verifyToken: {
+        type: String,
+        default: "",
+    },
+    verifyTokenExpire: {
+        type: Date,
+    },
 }, { timestamps: true });
 
 UserSchema.pre("save", async function (next) {

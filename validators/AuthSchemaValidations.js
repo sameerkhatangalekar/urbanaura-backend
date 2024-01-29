@@ -11,6 +11,21 @@ const loginInformationValidator = joi.object({
     }),
 });
 
+const forgotPasswordSchemaValidator = joi.object({
+    email: joi.string().email().lowercase().required().messages({
+        'any.required': "Email is required",
+    }),
+});
+const otpValidator = joi
+    .object({
+        otp: joi.number().required(),
+    });
+
+const resetPasswordValidator = joi.object({
+    email: joi.string().email().lowercase().required(),
+    password: joi.string().min(4).required(),
+    otp: joi.number().required(),
+})
 
 
 const registerUserValidator = joi.object({
@@ -37,5 +52,8 @@ const registerUserValidator = joi.object({
 
 export {
     loginInformationValidator,
-    registerUserValidator
+    registerUserValidator,
+    forgotPasswordSchemaValidator,
+    otpValidator,
+    resetPasswordValidator
 } 
