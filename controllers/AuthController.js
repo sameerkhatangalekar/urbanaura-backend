@@ -45,6 +45,30 @@ export default {
       next(error)
     }
   },
+  adminLogin: async (req, res, next) => {
+    try {
+      const validated = await loginInformationValidator.validateAsync(req.body);
+      const user = await User.findOne({ email: validated.email });
+      if (!user) throw createHttpError.NotFound("User does not exists");
+      if (!user.roles.includes("admin")) throw createHttpError.Forbidden("Forbidden");
+      const isValidPassword = await user.isValidPassword(validated.password);
+      if (!isValidPassword) throw createHttpError.BadRequest("Email / Password not valid");
+
+
+      const accessToken = await signAccessToken(user.id);
+
+      res.cookie('accessToken', accessToken, {
+        httpOnly: true,
+        maxAge: 8 * 60 * 60 * 1000
+      })
+      res.send({
+        accessToken
+      })
+
+    } catch (error) {
+      next(error)
+    }
+  },
   logout: async (req, res, next) => {
     try {
 

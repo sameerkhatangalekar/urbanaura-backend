@@ -8,4 +8,5 @@ router.put('/secured', verifyAccessToken, UserController.updateUser);
 router.delete('/secured', verifyAccessToken, UserController.deleteOwnAccount);
 router.get('/secured/admin/', [verifyAccessToken, isAdmin], UserController.getAllUsers);
 router.delete('/secured/admin/:id', [verifyAccessToken, isAdmin], UserController.deleteAccount);
+router.delete('/secured/admin/:id', [verifyAccessToken, isAdmin], UserController.deleteAccount);
 export default router;

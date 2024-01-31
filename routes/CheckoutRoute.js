@@ -6,5 +6,5 @@ const router = express.Router();
 
 
 // router.get('/config', verifyAccessToken, CheckoutController.config)
-router.get('/', verifyAccessToken, CheckoutController.createCheckout)
+router.get('/secured', verifyAccessToken, CheckoutController.createCheckout)
 export default router;

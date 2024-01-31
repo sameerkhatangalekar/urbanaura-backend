@@ -9,6 +9,7 @@ import CategoryRoute from './routes/CategoryRoute.js';
 import ProductRoute from './routes/ProductRoute.js';
 import CartRoute from './routes/CartRoute.js';
 import CheckoutRoute from './routes/CheckoutRoute.js';
+import StatsRoute from './routes/StatsRoute.js';
 import OrderRoute from './routes/OrderRoute.js';
 import createHttpError from 'http-errors';
 import cookieParser from 'cookie-parser';
@@ -171,6 +172,7 @@ app.use('/api/v1/product', ProductRoute)
 app.use('/api/v1/cart', CartRoute)
 app.use('/api/v1/order', OrderRoute)
 app.use('/api/v1/checkout', CheckoutRoute)
+app.use('/api/v1/stats', StatsRoute)
 app.use(async (req, res, next) => {
     next(createHttpError.NotFound("This route does not exists"));
 });

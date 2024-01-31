@@ -11,25 +11,16 @@ export default {
 
     getAllUsers: async (req, res, next) => {
         try {
-            let page = Number(req.query.page) || 1;
-            let limit = Number(req.query.limit) || 1;
 
-            if (page <= 0) {
-                page = 1;
-            }
-
-            if (limit <= 0 || limit > 100) {
-                limit = 10;
-            }
-            const skip = (page - 1) * limit;
             const users = await User.find({}, { password: 0, __v: 0 }).sort({
                 "createdAt": -1
-            }).skip(skip).limit(limit).lean();
+            })
             res.send(users);
         } catch (error) {
             next(error);
         }
     },
+
     updateUser: async (req, res, next) => {
         try {
             const validated = await updateUserValidator.validateAsync(req.body)
