@@ -41,7 +41,7 @@ export default {
         httpOnly: true,
         maxAge: 8 * 60 * 60 * 1000,
         secure: true,
-        sameSite: 'Strict'
+        sameSite: 'None'
       })
       res.send({
         accessToken
