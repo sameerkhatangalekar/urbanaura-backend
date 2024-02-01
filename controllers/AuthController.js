@@ -40,7 +40,8 @@ export default {
       res.cookie('accessToken', accessToken, {
         httpOnly: true,
         maxAge: 8 * 60 * 60 * 1000,
-        secure: true
+        secure: true,
+        sameSite: 'Strict'
       })
       res.send({
         accessToken
