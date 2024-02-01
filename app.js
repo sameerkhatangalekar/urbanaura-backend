@@ -23,12 +23,12 @@ import mongoose from 'mongoose';
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 connectToDatabase();
 const app = express();
-app.set('trust proxy', 1);
+// app.set('trust proxy', 1);
 
 app.use(morgan("dev"))
 app.use(
     cors({
-        origin: [process.env.CLIENT_ORIGIN, process.env.ADMIN_ORIGIN, 'https://stripe.com'],
+        origin: [process.env.CLIENT_ORIGIN, 'http://localhost:5173', 'https://stripe.com'],
         credentials: true,
         maxAge: 1 * 60 * 60 * 1000
     })
