@@ -25,11 +25,7 @@ connectToDatabase();
 const app = express();
 app.set('trust proxy', 1);
 
-app.use(morgan("dev", {
-    skip: (req, res) => {
-        return res.statusCode < 400;
-    }
-}))
+app.use(morgan("dev"))
 app.use(
     cors({
         origin: [process.env.CLIENT_ORIGIN, process.env.ADMIN_ORIGIN, 'https://stripe.com'],
