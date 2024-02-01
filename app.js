@@ -2,7 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import 'dotenv/config';
-import { connectToDatabase } from './Helpers/initMongodb.js';
+import { connectToDatabase } from './helpers/initMongodb.js';
 import AuthRoute from './routes/AuthRoute.js';
 import UserRoute from './routes/UserRoute.js';
 import CategoryRoute from './routes/CategoryRoute.js';
