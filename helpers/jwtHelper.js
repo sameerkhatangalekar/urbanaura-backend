@@ -22,7 +22,7 @@ const signAccessToken = (userId) => {
 }
 
 const verifyAccessToken = async (req, res, next) => {
-
+    console.log(req);
     if (!req.cookies.accessToken) return next(createHttpError.Unauthorized());
     // const authHeader = req.headers["authorization"];
     // const bearerToken = authHeader.split(" ");
