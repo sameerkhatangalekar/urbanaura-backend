@@ -32,8 +32,9 @@ app.use(morgan("dev", {
 }))
 app.use(
     cors({
-        origin: 'http://localhost:5173',  // Replace with the actual origin of your frontend
+        origin: [process.env.CLIENT_ORIGIN, process.env.ADMIN_ORIGIN],  // Replace with the actual origin of your frontend
         credentials: true,
+        maxAge: 1 * 60 * 60 * 1000
     })
 );
 

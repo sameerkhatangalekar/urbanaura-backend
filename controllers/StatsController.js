@@ -6,6 +6,7 @@ export default {
         try {
             const orderCount = await Order.find().countDocuments();
             const userCount = await User.find().countDocuments();
+
             const totalSales = await Order.aggregate([
                 {
                     $group: {
@@ -15,6 +16,7 @@ export default {
                 }
 
             ])
+
 
             if (totalSales.length > 0) {
                 res.send({
@@ -42,6 +44,7 @@ export default {
         try {
             const date = new Date();
             const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+
             const data = await Order.aggregate([
                 { $match: { createdAt: { $gte: lastYear } } },
                 {
@@ -55,6 +58,9 @@ export default {
                         total: { $sum: 1 },
                     },
                 },
+                {
+                    $sort: { _id: 1 }
+                }
             ]);
             res.status(200).json(data)
         } catch (error) {
@@ -66,7 +72,7 @@ export default {
     getRecentWeekOrders: async (req, res, next) => {
         try {
             const date = new Date();
-            date.setDate((date.getDate() - 7))
+            date.setDate((date.getDate() - 20))
 
             const data = await Order.find(
                 {
@@ -91,9 +97,9 @@ export default {
             const date = new Date();
             date.setDate(date.getDate() - 7);
             const users = await User.find({
-                // createdAt: {
-                //     $gte: date
-                // }
+                createdAt: {
+                    $gte: date
+                }
             }, {
                 verifyToken: 0,
                 password: 0,

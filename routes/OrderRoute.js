@@ -7,5 +7,6 @@ const router = express.Router();
 router.get('/secured/my-orders/', verifyAccessToken, OrderController.getMyOrders);
 router.get('/secured/', [verifyAccessToken, isAdmin], OrderController.getAllOrders);
 router.get('/secured/:id', [verifyAccessToken, isAdmin], OrderController.getOrderById);
+router.put('/secured/:id', [verifyAccessToken, isAdmin], OrderController.updateOrderStatus);
 
 export default router;

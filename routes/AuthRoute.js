@@ -18,7 +18,7 @@ router.post("/reset", authController.resetPassword);
 
 router.put('/logout', authController.logout);
 
-
+// router.get('/random', authController.generateData);
 
 
 export default router;

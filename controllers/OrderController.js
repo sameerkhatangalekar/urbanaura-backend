@@ -2,10 +2,12 @@ import Order from '../models/OrderModel.js';
 
 export default {
 
-    updateOrder: async (req, res, next) => {
+    updateOrderStatus: async (req, res, next) => {
         try {
-            const updatedOrder = await Order.findOneAndUpdate({ "user.userId": req.user._id }, {
-                $set: req.body
+            const updatedOrder = await Order.findByIdAndUpdate(req.params.id, {
+                $set: {
+                    status: req.body.status
+                }
             }, { new: true })
             res.status(202).json({
                 status: 202,
@@ -34,7 +36,9 @@ export default {
     },
     getAllOrders: async (req, res, next) => {
         try {
-            const orders = await Order.find().populate("products.product", 'title images');
+            const orders = await Order.find().populate("products.product", 'title images').sort({
+                "createdAt": -1
+            });
             res.json(orders);
         } catch (error) {
             next(error)
