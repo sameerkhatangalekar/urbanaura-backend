@@ -158,18 +158,15 @@ app.post(
     }
 );
 
-app.get('/health', async (req, res) => {
-    res.status(200).send()
-})
 
 app.use(express.json())
 
 app.use(cookieParser())
 app.use(limiter)
+
 app.get('/health', async (req, res, next) => {
     res.send("🚀🚀 I'm flyingg!!! 🚀🚀");
 });
-
 app.use('/api/v1/auth', AuthRoute)
 app.use('/api/v1/user', UserRoute)
 app.use('/api/v1/category', CategoryRoute)
