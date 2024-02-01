@@ -23,7 +23,7 @@ import mongoose from 'mongoose';
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 connectToDatabase();
 const app = express();
-
+app.set('trust proxy', 1);
 
 app.use(morgan("dev", {
     skip: (req, res) => {
