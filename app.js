@@ -32,7 +32,7 @@ app.use(morgan("dev", {
 }))
 app.use(
     cors({
-        origin: [process.env.CLIENT_ORIGIN, process.env.ADMIN_ORIGIN],  // Replace with the actual origin of your frontend
+        origin: [process.env.CLIENT_ORIGIN, process.env.ADMIN_ORIGIN, 'https://stripe.com'],
         credentials: true,
         maxAge: 1 * 60 * 60 * 1000
     })
@@ -157,6 +157,10 @@ app.post(
         res.send().end();
     }
 );
+
+app.get('/health', async (req, res) => {
+    res.status(200).send()
+})
 
 app.use(express.json())
 
