@@ -84,7 +84,9 @@ export default {
                     shipping: 0,
                     updatedAt: 0
                 }
-            );
+            ).sort({
+                createdAt: -1
+            });
             res.status(200).json(data)
 
         } catch (error) {
@@ -95,7 +97,7 @@ export default {
     getRecentWeekUsers: async (req, res, next) => {
         try {
             const date = new Date();
-            date.setDate(date.getDate() - 7);
+            date.setDate(date.getDate() - 40);
             const users = await User.find({
                 createdAt: {
                     $gte: date
@@ -106,6 +108,8 @@ export default {
                 roles: 0,
                 updatedAt: 0,
                 __v: 0
+            }).sort({
+                createdAt: -1
             })
             res.send(users);
         } catch (error) {

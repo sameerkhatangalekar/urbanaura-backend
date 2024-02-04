@@ -16,7 +16,7 @@ const ProductSchema = new Schema({
         required: true
     },
     categories: {
-        type: [String],
+        type: [{ type: Schema.Types.ObjectId, ref: "category", required: true }],
         required: true
     },
     sizes: {

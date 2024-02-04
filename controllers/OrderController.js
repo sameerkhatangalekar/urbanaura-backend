@@ -18,6 +18,22 @@ export default {
         }
     },
 
+    cancelOrder: async (req, res, next) => {
+        try {
+            const updatedOrder = await Order.findByIdAndUpdate(req.params.id, {
+                $set: {
+                    status: 'cancelled'
+                }
+            }, { new: true })
+            res.status(202).json({
+                status: 202,
+                message: "Order cancelled"
+            });
+        } catch (error) {
+            next(error)
+        }
+    },
+
     getOrderById: async (req, res, next) => {
         try {
             const order = await Order.findById(req.params.id).populate("products.product", 'title images');

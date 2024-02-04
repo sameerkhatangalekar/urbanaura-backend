@@ -26,7 +26,6 @@ export default {
     updateProduct: async (req, res, next) => {
         try {
             const validated = await updateProductValidator.validateAsync(req.body);
-
             const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {
                 $set: validated
             }).lean();
@@ -38,6 +37,7 @@ export default {
             });
 
         } catch (error) {
+
             next(error)
         }
     },
@@ -89,10 +89,7 @@ export default {
                 query.sizes = req.query.size;
             }
 
-
-
-
-            const products = await Product.find(query, { isActive: 0 }).sort({ createdAt: -1 })
+            const products = await Product.find(query, { isActive: 0 }).sort({ createdAt: -1 }).populate('categories', 'name')
             res.send(products)
 
         } catch (error) {
